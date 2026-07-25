@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEdermalab — Natural Skincare Formulation Tool | EU Allergen Scanner | Free</title>
+<meta name="description" content="Free natural skincare formulation assistant for independent brands. 123+ natural ingredients, real-time EU allergen scanner (2026-ready), AI Science Advisor, INCI declaration generator and Lab Notebook. No account needed.">
+<meta name="keywords" content="natural skincare formulation tool, EU allergen scanner 2026, indie skincare app, INCI generator, cosmetic formulation software, natural preservatives, fragrance allergen declaration">
+<meta property="og:title" content="CEdermalab — The formulation assistant that tells you what your supplier doesn't">
+<meta property="og:description" content="Free natural skincare formulation tool. EU allergen scanner, safety checker, 123+ natural ingredients, AI Science Advisor. Built for independent natural skincare makers.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1B3A2D;--forest-deep:#0F2219;--forest-mid:#2C5040;
+  --sage:#C8DDD0;--sage-light:#EAF2EC;--sage-mid:#9DBFB0;
+  --cream:#F8F4EE;--cream-dark:#F0E8DC;
+  --amber:#B8762A;--amber-light:#FBF3E8;--amber-mid:#DFA84A;
+  --ink:#1A1A1A;--muted:#7A7A72;--white:#fff;--rule:#D8E4DC;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav{position:fixed;top:-80px;left:0;right:0;z-index:200;background:rgba(15,34,25,0.96);backdrop-filter:blur(12px);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;transition:top 0.3s ease;border-bottom:1px solid rgba(200,221,208,0.1)}
+.sticky-nav.visible{top:0}
+.sticky-logo{font-family:'Cormorant Garant',serif;font-size:1.2rem;color:var(--cream);text-decoration:none}
+.sticky-logo span{color:var(--amber);font-style:italic}
+.sticky-nav-links{display:flex;align-items:center;gap:24px}
+.sticky-nav-link{font-size:0.74rem;color:rgba(200,221,208,0.5);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+.sticky-nav-link:hover{color:var(--sage)}
+.sticky-cta{background:var(--amber);color:white;padding:8px 20px;border-radius:6px;font-size:0.76rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;transition:background 0.15s}
+.sticky-cta:hover{background:#A06520}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--forest-deep);color:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,221,208,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,221,208,0.025) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
+.hero-glow-1{position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(184,118,42,0.08) 0%,transparent 65%);pointer-events:none}
+.hero-glow-2{position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(200,221,208,0.04) 0%,transparent 65%);pointer-events:none}
+
+/* Hero nav */
+.hero-nav{padding:24px 40px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10;flex-shrink:0}
+.hero-logo{font-family:'Cormorant Garant',serif;font-size:1.4rem;color:var(--cream);text-decoration:none;letter-spacing:-0.01em}
+.hero-logo span{color:var(--amber);font-style:italic}
+.hero-nav-links{display:flex;align-items:center;gap:28px}
+.hero-nav-link{font-size:0.74rem;color:rgba(200,221,208,0.45);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+.hero-nav-link:hover{color:var(--sage)}
+.hero-nav-cta{background:rgba(184,118,42,0.15);border:1px solid rgba(184,118,42,0.3);color:var(--amber-mid);padding:8px 18px;border-radius:6px;font-size:0.74rem;font-weight:600;text-decoration:none;letter-spacing:0.04em;transition:background 0.15s,border-color 0.15s}
+.hero-nav-cta:hover{background:rgba(184,118,42,0.25);border-color:rgba(184,118,42,0.5)}
+
+/* Hero content */
+.hero-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 40px 80px;text-align:center;position:relative;z-index:5}
+.hero-eyebrow{font-size:0.66rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--sage-mid);font-weight:500;margin-bottom:28px;display:flex;align-items:center;gap:14px;justify-content:center}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:28px;height:1px;background:var(--sage-mid);opacity:0.35}
+.hero-title{font-family:'Cormorant Garant',serif;font-size:clamp(2.8rem,6vw,5.2rem);font-weight:300;line-height:1.02;letter-spacing:-0.025em;margin-bottom:20px;max-width:780px}
+.hero-title em{font-style:italic;color:var(--amber-mid)}
+.hero-subtitle{font-size:clamp(0.95rem,1.5vw,1.1rem);color:rgba(248,244,238,0.5);max-width:520px;line-height:1.75;margin-bottom:44px;font-weight:300}
+
+/* Countdown */
+.countdown-wrap{background:rgba(184,118,42,0.1);border:1px solid rgba(184,118,42,0.2);border-radius:12px;padding:22px 32px;margin-bottom:44px;display:inline-flex;align-items:center;gap:28px;flex-wrap:wrap;justify-content:center}
+.countdown-label-top{font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber-mid);opacity:0.7;text-align:center;margin-bottom:10px}
+.countdown-units{display:flex;gap:16px;align-items:center}
+.countdown-unit{text-align:center}
+.countdown-num{font-family:'DM Mono',monospace;font-size:2.4rem;font-weight:500;color:var(--amber-mid);line-height:1;display:block}
+.countdown-unit-label{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(248,244,238,0.35);margin-top:4px;display:block}
+.countdown-sep{font-family:'DM Mono',monospace;font-size:2rem;color:var(--amber-mid);opacity:0.3;margin-bottom:12px}
+.countdown-desc{font-size:0.78rem;color:rgba(248,244,238,0.45);max-width:220px;line-height:1.55;text-align:left}
+.countdown-desc strong{color:var(--amber-mid);display:block;font-size:0.74rem;margin-bottom:3px}
+
+/* Hero CTAs */
+.hero-ctas{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;margin-bottom:52px}
+.btn-primary-lg{background:var(--amber);color:white;padding:15px 36px;border-radius:8px;font-size:0.9rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;box-shadow:0 4px 20px rgba(184,118,42,0.3);transition:background 0.15s,box-shadow 0.15s;display:inline-block}
+.btn-primary-lg:hover{background:#A06520;box-shadow:0 6px 28px rgba(184,118,42,0.4)}
+.btn-ghost-lg{color:rgba(248,244,238,0.55);font-size:0.84rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color 0.2s}
+.btn-ghost-lg:hover{color:var(--cream)}
+.btn-ghost-lg::after{content:'↓';font-size:0.9rem}
+
+/* Stats strip */
+.hero-stats{display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;padding-top:32px;border-top:1px solid rgba(200,221,208,0.1);width:100%;max-width:680px}
+.hero-stat-num{font-family:'Cormorant Garant',serif;font-size:1.9rem;font-weight:500;color:var(--cream);display:block;line-height:1}
+.hero-stat-label{font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,221,208,0.35);margin-top:4px;display:block;line-height:1.3}
+
+/* ── SECTION SYSTEM ── */
+.section{padding:88px 40px}
+.section-inner{max-width:960px;margin:0 auto}
+.section-kicker{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.section-kicker::after{content:'';height:1px;width:32px;background:var(--amber);opacity:0.4}
+.section-title{font-family:'Cormorant Garant',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;color:var(--forest);line-height:1.1;margin-bottom:16px}
+.section-title em{font-style:italic;font-weight:300;color:var(--muted)}
+.section-body{font-size:0.9rem;line-height:1.8;color:#2A2A22;max-width:620px}
+.section-body p{margin-bottom:14px}
+.section-body p:last-child{margin-bottom:0}
+.section-body strong{font-weight:600;color:var(--forest)}
+.section-center{text-align:center}
+.section-center .section-kicker{justify-content:center}
+.section-center .section-kicker::after{display:none}
+.section-center .section-kicker::before{content:'';height:1px;width:32px;background:var(--amber);opacity:0.4}
+.section-center .section-body{margin:0 auto}
+
+/* ── PROBLEM SECTION ── */
+.problem-section{background:var(--forest-deep);color:var(--cream)}
+.problem-section .section-title{color:var(--cream)}
+.problem-section .section-body{color:rgba(248,244,238,0.55)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:40px}
+.problem-card{background:rgba(200,221,208,0.04);border:1px solid rgba(200,221,208,0.1);border-radius:10px;padding:22px}
+.problem-card-num{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--amber-mid);margin-bottom:10px;opacity:0.7}
+.problem-card-quote{font-family:'Cormorant Garant',serif;font-size:1.05rem;font-style:italic;color:rgba(248,244,238,0.8);line-height:1.45;margin-bottom:12px}
+.problem-card-solve{font-size:0.74rem;color:var(--sage-mid);display:flex;align-items:flex-start;gap:6px;line-height:1.55}
+.problem-card-solve::before{content:'→';color:var(--amber);flex-shrink:0;font-style:normal}
+
+/* ── FEATURE SECTION ── */
+.feature-section{background:var(--cream)}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.feature-card{background:var(--white);border:1px solid var(--rule);border-radius:10px;padding:24px;transition:box-shadow 0.2s,transform 0.2s}
+.feature-card:hover{box-shadow:0 6px 24px rgba(27,58,45,0.08);transform:translateY(-2px)}
+.feature-card-icon{font-size:1.6rem;margin-bottom:12px}
+.feature-card-title{font-size:0.88rem;font-weight:600;color:var(--forest);margin-bottom:6px}
+.feature-card-body{font-size:0.8rem;color:var(--muted);line-height:1.65}
+.feature-card.highlight{border-color:var(--amber);background:var(--amber-light)}
+.feature-card.highlight .feature-card-title{color:var(--amber)}
+
+/* ── HOW IT WORKS ── */
+.how-section{background:var(--sage-light)}
+.how-steps{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;margin-top:44px;position:relative}
+.how-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,var(--rule),var(--rule),transparent)}
+.how-step{text-align:center;padding:0 16px;position:relative}
+.how-step-num{width:56px;height:56px;border-radius:50%;background:var(--forest);color:var(--cream);font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;position:relative;z-index:1;box-shadow:0 0 0 6px var(--sage-light)}
+.how-step-title{font-size:0.84rem;font-weight:600;color:var(--forest);margin-bottom:6px}
+.how-step-body{font-size:0.76rem;color:var(--muted);line-height:1.6}
+
+/* ── REGULATIONS SECTION ── */
+.reg-section{background:var(--white)}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-top:36px}
+.reg-card{background:var(--cream);border:1px solid var(--rule);border-radius:8px;padding:18px;text-align:center}
+.reg-card-flag{font-size:1.8rem;margin-bottom:10px}
+.reg-card-title{font-size:0.8rem;font-weight:600;color:var(--forest);margin-bottom:4px}
+.reg-card-body{font-size:0.72rem;color:var(--muted);line-height:1.55}
+.reg-card-badge{display:inline-block;background:var(--sage-light);color:var(--forest);font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:8px;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px}
+
+/* ── ALLERGEN BANNER ── */
+.allergen-banner{background:linear-gradient(135deg,#7B1C1C 0%,#9B2C2C 100%);color:white;padding:48px 40px;text-align:center;position:relative;overflow:hidden}
+.allergen-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.allergen-banner-inner{max-width:680px;margin:0 auto;position:relative}
+.allergen-banner-num{font-family:'DM Mono',monospace;font-size:4rem;font-weight:500;color:rgba(255,255,255,0.15);line-height:1;position:absolute;top:-20px;right:0}
+.allergen-banner-kicker{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:14px}
+.allergen-banner-title{font-family:'Cormorant Garant',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:400;margin-bottom:12px;line-height:1.2}
+.allergen-banner-title em{font-style:italic;color:#FFB3B3}
+.allergen-banner-body{font-size:0.86rem;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:24px}
+.allergen-banner-btn{display:inline-block;background:white;color:#7B1C1C;padding:12px 28px;border-radius:7px;font-size:0.84rem;font-weight:700;text-decoration:none;letter-spacing:0.03em}
+
+/* ── PRIVACY SECTION ── */
+.privacy-section{background:var(--forest);color:var(--cream);padding:64px 40px}
+.privacy-inner{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.privacy-title{font-family:'Cormorant Garant',serif;font-size:1.8rem;font-weight:400;margin-bottom:14px}
+.privacy-title em{font-style:italic;color:var(--sage)}
+.privacy-body{font-size:0.85rem;color:rgba(248,244,238,0.55);line-height:1.75}
+.privacy-points{display:flex;flex-direction:column;gap:12px}
+.privacy-point{display:flex;align-items:flex-start;gap:12px;font-size:0.82rem;color:rgba(248,244,238,0.7);line-height:1.55}
+.privacy-point-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.privacy-point strong{color:var(--cream);font-weight:600;display:block;margin-bottom:2px}
+
+/* ── TESTIMONIAL / CASE STUDY ── */
+.case-section{background:var(--cream-dark);padding:80px 40px}
+.case-inner{max-width:860px;margin:0 auto}
+.case-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(27,58,45,0.08)}
+.case-card-header{background:var(--forest);color:var(--cream);padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.case-card-title{font-family:'Cormorant Garant',serif;font-size:1.3rem;font-weight:400;margin-bottom:4px}
+.case-card-sub{font-size:0.72rem;color:rgba(200,221,208,0.5);letter-spacing:0.06em}
+.case-card-tag{background:var(--amber);color:white;font-size:0.62rem;font-weight:700;padding:4px 12px;border-radius:10px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:4px}
+.case-card-body{padding:28px 32px}
+.case-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.case-step{text-align:center;padding:16px;background:var(--cream);border-radius:8px}
+.case-step-icon{font-size:1.5rem;margin-bottom:8px}
+.case-step-label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.case-step-text{font-size:0.76rem;color:var(--ink);line-height:1.5}
+.case-alert{background:#FDEDED;border:1px solid #E8AAAA;border-radius:8px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.case-alert-icon{font-size:1.1rem;flex-shrink:0}
+.case-alert-text{font-size:0.79rem;color:#7B1C1C;line-height:1.6}
+.case-alert-text strong{font-weight:700}
+.case-resolve{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start}
+.case-resolve-icon{font-size:1.1rem;flex-shrink:0}
+.case-resolve-text{font-size:0.79rem;color:#1B5E20;line-height:1.6}
+
+/* ── FINAL CTA ── */
+.final-cta{background:var(--forest-deep);color:var(--cream);padding:100px 40px;text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(200,221,208,0.04) 0%,transparent 60%)}
+.final-cta-inner{position:relative;max-width:580px;margin:0 auto}
+.final-cta-eyebrow{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--sage-mid);opacity:0.5;margin-bottom:18px}
+.final-cta-title{font-family:'Cormorant Garant',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:16px}
+.final-cta-title em{font-style:italic;color:var(--amber-mid)}
+.final-cta-body{font-size:0.88rem;color:rgba(248,244,238,0.45);line-height:1.75;margin-bottom:36px}
+.final-cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-cta-main{background:var(--amber);color:white;padding:15px 40px;border-radius:8px;font-size:0.9rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;box-shadow:0 4px 20px rgba(184,118,42,0.3);display:inline-block}
+.btn-cta-main:hover{background:#A06520}
+.btn-cta-ghost{color:rgba(248,244,238,0.4);font-size:0.82rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:15px 0}
+.btn-cta-ghost:hover{color:var(--cream)}
+.final-cta-note{font-size:0.72rem;color:rgba(248,244,238,0.2);margin-top:20px;line-height:1.5}
+
+/* ── FOOTER ── */
+footer{background:var(--forest-deep);border-top:1px solid rgba(200,221,208,0.08);padding:32px 40px;text-align:center}
+.footer-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Cormorant Garant',serif;font-size:1rem;color:rgba(248,244,238,0.4);text-decoration:none}
+.footer-logo span{color:rgba(184,118,42,0.5);font-style:italic}
+.footer-links{display:flex;gap:20px}
+.footer-link{font-size:0.72rem;color:rgba(248,244,238,0.25);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+.footer-link:hover{color:rgba(248,244,238,0.5)}
+.footer-note{font-size:0.68rem;color:rgba(248,244,238,0.18);line-height:1.5;text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid rgba(200,221,208,0.06)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.65s ease,transform 0.65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-scale{opacity:0;transform:scale(0.97);transition:opacity 0.5s ease,transform 0.5s ease}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal-scale{opacity:1;transform:none;transition:none}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sticky-nav-links{display:none}
+  .hero-nav-links{display:none}
+  .hero-content{padding:24px 24px 60px}
+  .countdown-wrap{flex-direction:column;gap:16px}
+  .countdown-desc{text-align:center;max-width:100%}
+  .section{padding:60px 24px}
+  .problem-grid{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr 1fr}
+  .how-steps::before{display:none}
+  .reg-grid{grid-template-columns:1fr 1fr}
+  .privacy-inner{grid-template-columns:1fr}
+  .case-steps{grid-template-columns:1fr}
+  .final-cta{padding:72px 24px}
+  footer{padding:24px}
+  .footer-inner{flex-direction:column;text-align:center}
+}
+@media print{.sticky-nav{display:none}}
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav" id="sticky-nav">
+  <a href="#" class="sticky-logo">CEderma<span>lab</span></a>
+  <div class="sticky-nav-links">
+    <a href="#features" class="sticky-nav-link">Features</a>
+    <a href="#how" class="sticky-nav-link">How it works</a>
+    <a href="#regulations" class="sticky-nav-link">Regulations</a>
+    <a href="app/index.html" class="sticky-cta">Open App →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <nav class="hero-nav">
+    <a href="#" class="hero-logo">CEderma<span>lab</span></a>
+    <div class="hero-nav-links">
+      <a href="#features" class="hero-nav-link">Features</a>
+      <a href="#how" class="hero-nav-link">How it works</a>
+      <a href="#regulations" class="hero-nav-link">Regulations</a>
+      <a href="app/index.html" class="hero-nav-cta">Open App →</a>
+    </div>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">For independent natural skincare makers</div>
+    <h1 class="hero-title">The formulation assistant<br>that tells you what<br><em>your supplier doesn't.</em></h1>
+    <p class="hero-subtitle">Science-backed natural formulation — real-time safety checking, EU allergen scanning, and an AI Science Advisor that knows your formula. Free to use. No account needed.</p>
+
+    <div class="countdown-wrap">
+      <div>
+        <div class="countdown-label-top">EU Allergen Deadline — Commission Regulation (EU) 2023/1545</div>
+        <div class="countdown-units">
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-days">--</span>
+            <span class="countdown-unit-label">Days</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-hours">--</span>
+            <span class="countdown-unit-label">Hours</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-mins">--</span>
+            <span class="countdown-unit-label">Minutes</span>
+          </div>
+        </div>
+      </div>
+      <div class="countdown-desc">
+        <strong>31 July 2026</strong>
+        82 fragrance allergens must be individually declared on all EU cosmetic labels. CEdermalab scans your formula against every one in real time.
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="app/index.html" class="btn-primary-lg">Open CEdermalab — Free →</a>
+      <a href="#features" class="btn-ghost-lg">See what it does</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">123+</span>
+        <span class="hero-stat-label">Natural ingredients</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">82</span>
+        <span class="hero-stat-label">EU allergens scanned</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">4</span>
+        <span class="hero-stat-label">Markets covered</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">0</span>
+        <span class="hero-stat-label">Synthetics in library</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">Free</span>
+        <span class="hero-stat-label">No account needed</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="problem-section section" id="problem">
+  <div class="section-inner">
+    <div class="section-kicker reveal" style="color:var(--sage-mid)">The gap nobody warns you about</div>
+    <h2 class="section-title reveal" style="color:var(--cream)">You know your ingredients.<br><em>But do you know your formulation science?</em></h2>
+    <p class="section-body reveal">Most independent natural skincare makers are deeply ingredient-literate. They know their oils, their extracts, their hydrosols. They care about what goes on their customers' skin. But there is a gap between knowing your ingredients and formulating safely.</p>
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <div class="problem-card-num">01</div>
+        <div class="problem-card-quote">"I thought Vitamin E was protecting my formula."</div>
+        <div class="problem-card-solve">Vitamin E is an antioxidant — it protects oils from rancidity. It does nothing against bacteria, yeast, or mould.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">02</div>
+        <div class="problem-card-quote">"I had no idea lavender has three EU allergens I must declare."</div>
+        <div class="problem-card-solve">From July 2026, three components of lavender must appear individually on your EU label. CEdermalab catches this automatically.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">03</div>
+        <div class="problem-card-quote">"Nobody told me aloe vera juice counts as water in my formula."</div>
+        <div class="problem-card-solve">Any formula containing aloe, hydrosols, or glycerin above 10% needs a validated preservative system. The safety checker flags this immediately.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">04</div>
+        <div class="problem-card-quote">"I've been selling in Canada without filing a CNF."</div>
+        <div class="problem-card-solve">Every cosmetic sold in Canada must be notified to Health Canada within 10 days of first sale. CEdermalab covers Canadian regulations in full.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">05</div>
+        <div class="problem-card-quote">"I can't afford a cosmetic scientist but I need to get the science right."</div>
+        <div class="problem-card-solve">The AI Science Advisor answers formulation questions in the context of your actual formula — pH, preservatives, actives, and compatibility.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">06</div>
+        <div class="problem-card-quote">"My INCI list order isn't right — but I don't know what right looks like."</div>
+        <div class="problem-card-solve">CEdermalab generates your full INCI declaration automatically in correct regulatory descending order, with allergens flagged separately.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="feature-section section" id="features">
+  <div class="section-inner">
+    <div class="section-kicker reveal">What CEdermalab does</div>
+    <h2 class="section-title reveal">Everything a natural formulator<br><em>needs in one place</em></h2>
+    <div class="feature-grid reveal">
+      <div class="feature-card highlight">
+        <div class="feature-card-icon">🌸</div>
+        <div class="feature-card-title">EU Allergen Scanner — 2026 Ready</div>
+        <div class="feature-card-body">All 82 allergens from Commission Regulation (EU) 2023/1545 coded in. Add lavender and it flags Linalool, Linalyl Acetate, and Camphor. Add ylang ylang and it catches six allergens at once. Scans in real time as you build.</div>
+      </div>
+      <div class="feature-card highlight">
+        <div class="feature-card-icon">🛡️</div>
+        <div class="feature-card-title">Real-Time Safety Checker</div>
+        <div class="feature-card-body">The moment you add a water-phase ingredient without a preservative, an alert fires. Every time. Explicitly separates antioxidants from preservatives. pH compatibility guide for every major active. No formula goes unsafe unnoticed.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">⚗️</div>
+        <div class="feature-card-title">Phase-Organised Formula Builder</div>
+        <div class="feature-card-body">Water, Oil, Cool-down, and Active phases. Live percentage calculator, batch gram weights, QS auto-fill, and full INCI declaration in correct regulatory descending order. Export to CSV.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🌿</div>
+        <div class="feature-card-title">Natural-Only Ingredient Library</div>
+        <div class="feature-card-body">123+ ingredients across 10 tabs. Every ingredient is plant-derived, mineral, or fermentation-based. Zero synthetics. Usage rates, phase guidance, and EU/UK/US/Canada regulatory limits for every card.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🤖</div>
+        <div class="feature-card-title">AI Science Advisor</div>
+        <div class="feature-card-body">Ask it anything about your formula. It knows your current ingredients and answers in context — why you need a challenge test, what pH your niacinamide needs, how to substantiate a brightening claim.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📄</div>
+        <div class="feature-card-title">CoA Upload & AI Reading</div>
+        <div class="feature-card-body">Upload a supplier Certificate of Analysis — PDF or image. The AI reads it and extracts INCI name, usage rates, allergen content, pH range, and regulatory limits. Saved to your personal CoA library.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">📝</div>
+        <div class="feature-card-title">Lab Notebook</div>
+        <div class="feature-card-body">Formula notes, stability log, CoA library, test results (ISO 11930, CPSR, microbiology, SPF), and general notes. Everything saved in your browser — your complete formulation record in one place.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🔒</div>
+        <div class="feature-card-title">Privacy First</div>
+        <div class="feature-card-body">All your data — formulas, notes, library, profile — is stored only in your browser. Never transmitted to external servers. No account required. Your formulation work is private to you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section section" id="how">
+  <div class="section-inner section-center">
+    <div class="section-kicker reveal">How it works</div>
+    <h2 class="section-title reveal">From blank canvas<br><em>to label-ready formula</em></h2>
+    <div class="how-steps reveal">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div class="how-step-title">Open the app</div>
+        <div class="how-step-body">No download. No account. Open CEdermalab in any browser on any device — including iPad. Accept the disclaimer and you are in.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div class="how-step-title">Build your formula</div>
+        <div class="how-step-body">Add ingredients phase by phase from the library or type your own. Percentages calculate live. The safety checker watches as you build.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div class="how-step-title">Scan for allergens</div>
+        <div class="how-step-body">The allergen scanner runs automatically against all 82 EU allergens. Every flagged allergen is identified with its source, threshold, and label requirement.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">4</div>
+        <div class="how-step-title">Export your INCI</div>
+        <div class="how-step-body">Generate your full INCI declaration in correct regulatory descending order, allergens declared separately, ready for your label and safety assessor.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALLERGEN BANNER -->
+<div class="allergen-banner">
+  <div class="allergen-banner-inner">
+    <div class="allergen-banner-num">82</div>
+    <div class="allergen-banner-kicker">Commission Regulation (EU) 2023/1545 · Deadline 31 July 2026</div>
+    <h2 class="allergen-banner-title">Lavender triggers 3.<br>Ylang ylang triggers <em>six.</em><br>Is your formula compliant?</h2>
+    <p class="allergen-banner-body">The EU has expanded its fragrance allergen list from 26 to 82. Every one of them is naturally occurring in popular essential oils. If you sell in the EU or UK and use fragrance ingredients, this deadline affects your labels. CEdermalab scans your formula against all 82 in real time — for free.</p>
+    <a href="app/index.html" class="allergen-banner-btn">Run Your Allergen Scan →</a>
+  </div>
+</div>
+
+<!-- CASE STUDY -->
+<section class="case-section" id="casestudy">
+  <div class="case-inner">
+    <div class="section-kicker reveal">Real formulation. Real catch.</div>
+    <h2 class="section-title reveal" style="margin-bottom:28px">From blank canvas to<br><em>label-ready — and safer</em></h2>
+    <div class="case-card reveal-scale">
+      <div class="case-card-header">
+        <div>
+          <div class="case-card-title">Kakadu Plum Brightening Serum</div>
+          <div class="case-card-sub">Water-based leave-on serum · EU / UK / US market</div>
+        </div>
+        <span class="case-card-tag">Case Study</span>
+      </div>
+      <div class="case-card-body">
+        <div class="case-steps">
+          <div class="case-step">
+            <div class="case-step-icon">🌿</div>
+            <div class="case-step-label">Step 1</div>
+            <div class="case-step-text">Build formula phase by phase — Rose Hydrosol, Aloe, Glycerin, Niacinamide, Kakadu Plum Extract, Ferulic Acid, Bisabolol</div>
+          </div>
+          <div class="case-step">
+            <div class="case-step-icon">🚨</div>
+            <div class="case-step-label">Step 2 — Alert</div>
+            <div class="case-step-text">Safety checker fires: no preservative detected in an aqueous formula. Benzyl Alcohol + Dehydroacetic Acid added.</div>
+          </div>
+          <div class="case-step">
+            <div class="case-step-icon">🌸</div>
+            <div class="case-step-label">Step 3</div>
+            <div class="case-step-text">Allergen scanner identifies Benzyl Alcohol (original 26) and Citronellol from Rose Hydrosol (new 2026 allergen)</div>
+          </div>
+        </div>
+        <div class="case-alert">
+          <span class="case-alert-icon">🚨</span>
+          <div class="case-alert-text"><strong>What CEdermalab caught:</strong> The formulator had added Rose Hydrosol, Aloe Vera Juice, and Glycerin — but no preservative. The safety checker flagged this before the formula was finalised. Without this alert, the product would have been manufactured without antimicrobial protection.</div>
+        </div>
+        <div class="case-resolve">
+          <span class="case-resolve-icon">✅</span>
+          <div class="case-resolve-text"><strong>The outcome:</strong> Preservative system added. Allergens identified and declared. Full INCI declaration generated in correct regulatory order. Formula ready for safety assessor review and ISO 11930 challenge testing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGULATIONS -->
+<section class="reg-section section" id="regulations">
+  <div class="section-inner section-center">
+    <div class="section-kicker reveal">Regulatory coverage</div>
+    <h2 class="section-title reveal">Four markets. One tool.</h2>
+    <p class="section-body reveal" style="margin:0 auto 36px">CEdermalab covers the regulatory frameworks that matter for independent natural skincare brands — EU, UK, US, and Canada — in a single tool with plain-language guidance.</p>
+    <div class="reg-grid reveal">
+      <div class="reg-card">
+        <div class="reg-card-flag">🇪🇺</div>
+        <div class="reg-card-title">European Union</div>
+        <div class="reg-card-body">Regulation (EC) 1223/2009. Commission Regulation (EU) 2023/1545 — all 82 allergens. CPSR requirements. CPNP notification. Annex II/III limits.</div>
+        <div class="reg-card-badge">82 Allergens</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-card-flag">🇬🇧</div>
+        <div class="reg-card-title">United Kingdom</div>
+        <div class="reg-card-body">UK SI 2019/696 post-Brexit framework. SCPN notification. UK Responsible Person requirement. Full allergen coverage equivalent to EU.</div>
+        <div class="reg-card-badge">Post-Brexit</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-card-flag">🇺🇸</div>
+        <div class="reg-card-title">United States</div>
+        <div class="reg-card-body">FDA MoCRA 2022 — facility registration, product listing, adverse event reporting, safety substantiation, and label requirements.</div>
+        <div class="reg-card-badge">MoCRA 2022</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-card-flag">🍁</div>
+        <div class="reg-card-title">Canada</div>
+        <div class="reg-card-body">Health Canada SOR/2024-63. CNF notification within 10 days. Ingredient Hotlist. Bilingual EN/FR labelling. Canadian Responsible Person. 6-year records retention.</div>
+        <div class="reg-card-badge">Health Canada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY SECTION -->
+<section class="privacy-section">
+  <div class="privacy-inner">
+    <div class="reveal">
+      <h2 class="privacy-title">Built with your<br><em>privacy in mind</em></h2>
+      <p class="privacy-body">Your formulas, your data, and your ideas belong to you. CEdermalab was built privacy-first — because the same values that drive you to choose natural ingredients should be reflected in how your data is handled.</p>
+    </div>
+    <div class="privacy-points reveal">
+      <div class="privacy-point">
+        <span class="privacy-point-icon">✅</span>
+        <div><strong>No server storage</strong>All your formulas, notes, and library entries are stored only in your browser. They never leave your device.</div>
+      </div>
+      <div class="privacy-point">
+        <span class="privacy-point-icon">✅</span>
+        <div><strong>No account required</strong>Open the app, start formulating. No email address, no password, no sign-up barrier.</div>
+      </div>
+      <div class="privacy-point">
+        <span class="privacy-point-icon">✅</span>
+        <div><strong>No advertising</strong>CEdermalab carries no advertising and does not share data with any third party for marketing purposes.</div>
+      </div>
+      <div class="privacy-point">
+        <span class="privacy-point-icon">✅</span>
+        <div><strong>Your right to delete</strong>Clear your browser's local storage for this site and all CEdermalab data is gone. Completely and immediately.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner reveal">
+    <div class="final-cta-eyebrow">CEdermalab — Free to use</div>
+    <h2 class="final-cta-title">Build your formula<br>with the science<br><em>on your side</em></h2>
+    <p class="final-cta-body">123+ natural-origin ingredients. Real-time safety checking. EU allergen scanning to the 2026 standard. AI Science Advisor. Lab Notebook. No account. No download. Works on any device.</p>
+    <div class="final-cta-btns">
+      <a href="app/index.html" class="btn-cta-main">Open CEdermalab — Free →</a>
+      <a href="#problem" class="btn-cta-ghost">Learn more</a>
+    </div>
+    <div class="final-cta-note">By using CEdermalab you accept the terms of the disclaimer presented within the application. All formulas require independent safety assessment before market placement.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">CEderma<span>lab</span></a>
+    <div class="footer-links">
+      <a href="app/index.html" class="footer-link">Open App</a>
+      <a href="app/index.html#panel-regulations" class="footer-link">Privacy</a>
+      <a href="app/index.html#panel-regulations" class="footer-link">Regulations</a>
+    </div>
+  </div>
+  <div class="footer-note">
+    CEdermalab is an educational and organisational formulation tool. It does not constitute professional cosmetic science advice, regulatory consulting, or a legally recognised safety assessment. All formulas must be independently assessed by a qualified cosmetic safety assessor before being placed on the market. Regulatory information is accurate as of July 2026.
+  </div>
+</footer>
+
+<script>
+// Countdown to 31 July 2026
+function updateCountdown() {
+  const deadline = new Date('2026-07-31T23:59:59');
+  const now = new Date();
+  const diff = deadline - now;
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-mins').textContent = '00';
+    return;
+  }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 30000);
+
+// Sticky nav
+const stickyNav = document.getElementById('sticky-nav');
+window.addEventListener('scroll', () => {
+  stickyNav.classList.toggle('visible', window.scrollY > window.innerHeight * 0.7);
+}, { passive: true });
+
+// Scroll reveal
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObs.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) { e.preventDefault(); const navH = 80; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - navH, behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
