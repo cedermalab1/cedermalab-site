@@ -3821,7 +3821,7 @@ async function sendAIMessage() {
   try {
     const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sb_publishable_Purf25-3vZQ-6a6McBtrvQ_VPc4Br10' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -4264,7 +4264,7 @@ async function lookupIngredient(name, inci, phase, fn, max) {
   try {
     const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sb_publishable_Purf25-3vZQ-6a6McBtrvQ_VPc4Br10' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -4912,7 +4912,7 @@ Format your response using clear bold headers for each section. Be concise but t
 
     const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sb_publishable_Purf25-3vZQ-6a6McBtrvQ_VPc4Br10' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
