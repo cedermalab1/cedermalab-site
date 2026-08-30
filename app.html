@@ -3819,7 +3819,7 @@ async function sendAIMessage() {
   const loading = addChatMsg('Thinking...', 'assistant loading');
 
   try {
-    const res = await fetch('/api/claude', {
+    const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -4262,7 +4262,7 @@ async function lookupIngredient(name, inci, phase, fn, max) {
   }
 
   try {
-    const res = await fetch('/api/claude', {
+    const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -4910,7 +4910,7 @@ Format your response using clear bold headers for each section. Be concise but t
       return;
     }
 
-    const res = await fetch('/api/claude', {
+    const res = await fetch('https://ntkkdxdtoeibedrobwhk.supabase.co/functions/v1/claude-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
