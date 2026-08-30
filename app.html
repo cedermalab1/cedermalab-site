@@ -385,6 +385,9 @@
   .ai-msg.assistant { background: var(--white); border: 1px solid #E2EDE9; align-self: flex-start; color: var(--ink); }
   .ai-msg.user { background: var(--forest); color: var(--cream); align-self: flex-end; }
   .ai-msg.loading { color: var(--muted); font-style: italic; }
+  .ai-msg p:last-child, .ai-msg ul:last-child, .ai-msg ol:last-child { margin-bottom: 0 !important; }
+  .ai-msg strong { font-weight: 600; }
+  .ai-msg.assistant strong { color: var(--forest); }
   .ai-input-row { display: flex; gap: 10px; margin-top: 8px; }
   .ai-input-row input { flex: 1; }
   /* Tabs */
@@ -3841,12 +3844,60 @@ Be concise but scientifically precise. Your audience understands that consumer s
     });
     const data = await res.json();
     const text = data.content?.map(c => c.text || '').join('') || 'I could not generate a response. Please try again.';
-    loading.textContent = text;
+    loading.innerHTML = formatAdvisorResponse(text);
     loading.classList.remove('loading');
   } catch (e) {
     loading.textContent = 'Connection error. Please check your internet connection and try again.';
     loading.classList.remove('loading');
   }
+}
+
+// Converts the AI's plain-text response (with markdown-style formatting)
+// into readable HTML — paragraph breaks, bold text, and numbered/bulleted lists.
+function formatAdvisorResponse(text) {
+  // Escape any raw HTML in the response first, so nothing unexpected renders as markup
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Split into paragraphs on double line breaks (or single, if that's all the model returns)
+  const blocks = escaped.split(/\n\s*\n/).filter(b => b.trim().length > 0);
+
+  const htmlBlocks = blocks.map(block => {
+    const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+    // Find where list-formatted lines begin (allowing an optional intro sentence before the list)
+    const listLineRegex = /^(\d+[.)]|[-•*])\s+/;
+    const firstListIdx = lines.findIndex(l => listLineRegex.test(l));
+    const introLines = firstListIdx > 0 ? lines.slice(0, firstListIdx) : (firstListIdx === 0 ? [] : lines);
+    const listLines = firstListIdx >= 0 ? lines.slice(firstListIdx) : [];
+    const allRemainingAreListItems = listLines.length > 0 && listLines.every(l => listLineRegex.test(l));
+
+    if (allRemainingAreListItems && listLines.length > 1) {
+      const isOrdered = /^\d+[.)]/.test(listLines[0]);
+      const items = listLines.map(l => l.replace(listLineRegex, ''))
+                              .map(applyInlineFormatting)
+                              .map(li => `<li style="margin-bottom:4px">${li}</li>`).join('');
+      const listHtml = isOrdered ? `<ol style="margin:6px 0 10px 20px;padding:0">${items}</ol>`
+                                  : `<ul style="margin:6px 0 10px 20px;padding:0">${items}</ul>`;
+      const introHtml = introLines.length > 0
+        ? `<p style="margin:0 0 4px 0">${applyInlineFormatting(introLines.join(' '))}</p>` : '';
+      return introHtml + listHtml;
+    }
+
+    // Otherwise treat as a normal paragraph
+    return `<p style="margin:0 0 10px 0">${applyInlineFormatting(lines.join(' '))}</p>`;
+  });
+
+  return htmlBlocks.join('');
+}
+
+// Handles inline **bold** and *italic* markdown within a line of text
+function applyInlineFormatting(line) {
+  return line
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
 }
 
 function addChatMsg(text, type) {
