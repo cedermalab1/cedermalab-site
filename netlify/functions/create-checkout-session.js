@@ -1,8 +1,11 @@
 // netlify/functions/create-checkout-session.js
 //
-// Creates a Stripe Checkout Session that charges $1 today, starts a 7-day
-// trial, then automatically bills the customer's chosen plan ($14/mo or
-// $120/yr) once the trial ends.
+// *** TEST MODE VERSION ***
+// Uses test-mode price IDs and expects STRIPE_SECRET_KEY to be set to your
+// sk_test_... key in Netlify's environment variables while testing.
+//
+// Once testing is complete, swap back to the live version (live price IDs +
+// sk_live_... key) before real customers use this.
 //
 // Call this from your pricing page instead of using a static Payment Link:
 //   fetch('/.netlify/functions/create-checkout-session', {
@@ -15,16 +18,14 @@
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// Recurring subscription prices (created under "CEdermalab Pro Subscription")
+// Recurring subscription prices (TEST MODE — "CEdermalab Pro Subscription")
 const PLAN_PRICE_IDS = {
-  monthly: 'price_1UD4uYPqFSGJZlJCQ7a7Qj08', // $14/month
-  yearly: 'price_1UD4uYPqFSGJZlJCb8M0sEr2',  // $120/year
+  monthly: 'price_1UDAlUPqFSGJZlJCc3rGe77V', // $14/month (test)
+  yearly: 'price_1UDAmaPqFSGJZlJCRwY148ni',  // $120/year (test)
 };
 
-// One-time $1 price charged today for the trial.
-// NOTE: create a fresh ONE-TIME (not recurring) $1 price in Stripe and
-// paste its ID here — the old "Trial" price was archived.
-const TRIAL_ONE_TIME_PRICE_ID = 'price_1UD4WXPqFSGJZlJCmGIXl6LT';
+// One-time $1 price charged today for the trial (TEST MODE).
+const TRIAL_ONE_TIME_PRICE_ID = 'price_1UDAhAPqFSGJZlJCZYakIm38';
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
