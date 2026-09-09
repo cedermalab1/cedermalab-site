@@ -7,7 +7,8 @@
 // Once testing is complete, swap back to the live version (live price IDs +
 // sk_live_... key) before real customers use this.
 //
-// Call this from your pricing page instead of using a static Payment Link:
+// Call this from your pricing/onboarding page instead of using a static
+// Payment Link:
 //   fetch('/.netlify/functions/create-checkout-session', {
 //     method: 'POST',
 //     headers: { 'Content-Type': 'application/json' },
@@ -67,8 +68,8 @@ exports.handler = async (event) => {
       // let customers through without a card on file, and day-8 billing
       // would fail.
       payment_method_collection: 'always',
-      success_url: `${process.env.URL}/trial-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.URL}/pricing`,
+      success_url: `${process.env.URL}/app.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.URL}/onboarding.html`,
     });
 
     return {
@@ -83,3 +84,4 @@ exports.handler = async (event) => {
     };
   }
 };
+
