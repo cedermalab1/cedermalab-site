@@ -860,16 +860,42 @@ function saveCheckin() {
   };
   try { localStorage.setItem('cedermalab_checkin', JSON.stringify(record)); } catch(e) {}
   goToApp();
+  
 }
 
 // ── TRIAL START ───────────────────────────────────────────────
 function startTrial() {
   const btn = document.getElementById('start-trial-btn');
-  btn.textContent = 'Redirecting to checkout…';
+    btn.textContent = 'Redirecting to checkout…';
   btn.disabled = true;
-  // Real Stripe Payment Link — $1 7-day trial, then $14/month, redirects to app.html after payment
-  window.location.href = 'https://buy.stripe.com/test_00w7sNgjp4by0C0gTE0x206';
+
+  // Creates a Checkout Session via our Netlify function ($1 today, 7-day
+  // trial, then $14/month), then redirects to Stripe's hosted checkout.
+  fetch('/.netlify/functions/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan: 'monthly' }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error('Checkout session error:', data.error);
+        alert('Something went wrong starting checkout. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Start 7-Day Trial';
+      }
+    })
+    .catch((err) => {
+      console.error('Checkout session error:', err);
+      alert('Something went wrong starting checkout. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Start 7-Day Trial';
+    });
 }
+
+  
 
 function goToApp() {
   window.location.href = 'app.html';
